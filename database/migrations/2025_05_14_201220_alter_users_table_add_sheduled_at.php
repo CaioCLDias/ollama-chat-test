@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(false)->after('password');
+            $table->timestamp('scheduled_for_deletion_at')->nullable()->after('is_admin');
+            $table->softDeletes();
         });
     }
 
@@ -22,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
+            $table->dropSoftDeletes();
+            $table->dropColumn('scheduled_for_deletion_at');
         });
     }
 };

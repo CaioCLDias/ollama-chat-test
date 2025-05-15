@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UserControler extends Controller
 {
@@ -65,15 +66,23 @@ class UserControler extends Controller
         }
     }
 
-    public function destroy(string $id): JsonResponse
-    {
-        try {
-            $user = User::findOrFail($id);
-            $user->delete();
 
-            return ApiResponse::success(null, 'User deleted successfully.');
-        } catch (\Throwable $e) {
-            return ApiResponse::error('Failed to delete user.', 500, $e);
+
+    public function destroy(Request $request, $id): JsonResponse
+    {
+        try{
+            $request->validate([
+            'deletion_date' => 'required|date',
+        ]);
+        $user = User::findOrFail($id);
+
+        $user->scheduled_for_deletion_at = $request->input('deletion_date');
+        $user->save();
+
+        return ApiResponse::success($user, 'User scheduled for deletion.');
+        }catch (\Throwable $e) {
+            return ApiResponse::error('Failed to schedule user for deletion.', 500, $e->getMessage());
         }
+        
     }
 }

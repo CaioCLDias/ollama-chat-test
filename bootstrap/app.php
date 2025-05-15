@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -45,7 +47,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'deleted' => \App\Http\Middleware\EnsureDeletedUsers::class,
         ]);
+    })
+    ->withSchedule(function (Schedule $schedule) {
+       $schedule->command('users:process-user-deletions')->everyMinute()->timezone('UTC')->appendOutputTo(storage_path('logs/deletions.log'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

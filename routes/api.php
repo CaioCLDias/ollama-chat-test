@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserControler;
+use App\Http\Controllers\Common\RegisterUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,9 +11,17 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-Route::prefix('admin')->middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::apiResource('users', UserControler::class);
+Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'verified', 'deleted', 'throttle:6,1'])->group(function () {
+    Route::get('/users', [UserControler::class, 'index'])->name('users.index');
+    Route::post('/users', [UserControler::class, 'store'])->name('users.store');
+    Route::get('/users/{id}', [UserControler::class, 'show'])->name('users.show');
+    Route::put('/users/{id}', [UserControler::class, 'update'])->name('users.update');
+    Route::post('/users/delete/{id}', [UserControler::class, 'destroy'])->name('users.destroy');
 });
 
+
+Route::prefix('common')->middleware(['auth:sanctum', 'verified', 'deleted', 'throttle:6,1'])->group(function () {
+    Route::post('/user', [RegisterUserController::class, 'destroy']);
+});
 
 require __DIR__ . '/auth.php';
