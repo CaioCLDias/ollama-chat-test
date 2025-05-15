@@ -51,7 +51,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
-       $schedule->command('users:process-user-deletions')->everyMinute()->timezone('UTC')->appendOutputTo(storage_path('logs/deletions.log'));
+       $schedule->command('users:process-user-deletions')->hourly()->timezone('UTC')->appendOutputTo(storage_path('logs/deletions.log'));
+       $schedule->command('chat:update-main-message')->daily()->timezone('UTC')->appendOutputTo(storage_path('logs/chat.log'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

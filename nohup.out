@@ -58,3 +58,6 @@ Commands:
 
 Run 'docker compose COMMAND --help' for more information on a command.
 unknown docker command: "compose artisam"
+
+   INFO  No scheduled commands are ready to run.  
+

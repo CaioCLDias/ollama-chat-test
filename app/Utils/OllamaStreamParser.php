@@ -5,7 +5,12 @@ use Psr\Http\Message\StreamInterface;
 
 class OllamaStreamParser
 {
-
+    /**
+     * Extracts text from a stream.
+     *
+     * @param StreamInterface $stream
+     * @return string
+     */
     public static function extractTextFromStream(StreamInterface $stream): string
     {
         $body = '';
