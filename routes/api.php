@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserControler;
+use App\Http\Controllers\Common\ChatController;
 use App\Http\Controllers\Common\RegisterUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,8 +21,9 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'admin', 'verified', 'delete
 });
 
 
-Route::prefix('common')->middleware(['auth:sanctum', 'verified', 'deleted', 'throttle:6,1'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'deleted'])->group(function () {
     Route::post('/user', [RegisterUserController::class, 'destroy']);
+    Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
 });
 
 require __DIR__ . '/auth.php';
