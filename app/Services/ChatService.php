@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Log;
 class ChatService
 {
 
-    protected string $ollamaEndpoint = 'http://ollama:11434/api/generate';
+    protected string $ollamaEndpoint;
+
+    public function __construct()
+    {
+        $this->ollamaEndpoint = env('OLLAMA_URL') . '/api/generate';
+    }
 
     public function sendMessage(int $userId, string $message): array
     {
