@@ -11,7 +11,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->is_admin === true;
+        return true;
     }
 
     /**
@@ -23,8 +23,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|max:255|unique:users,email,' . $this->user->id,
-            'password' => 'sometimes|required|string|min:6|confirmed',
+            'email' => 'sometimes|required|email|max:255|unique:users,email,' .  $this->route('id'),
             'is_admin' => 'sometimes|boolean',
         ];
     }
@@ -36,9 +35,6 @@ class UpdateUserRequest extends FormRequest
             'email.required' => 'Email is required',
             'email.email' => 'Email must be a valid email address',
             'email.unique' => 'Email already exists',
-            'password.required' => 'Password is required',
-            'password.min' => 'Password must be at least 6 characters',
-            'password.confirmed' => 'Password confirmation does not match',
         ];
     }
 }
