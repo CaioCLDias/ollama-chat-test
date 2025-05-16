@@ -18,6 +18,8 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8081:9000"
     depends_on:
       ollama:
         condition: service_started
