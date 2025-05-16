@@ -77,6 +77,7 @@ return [
             'group_options' => [],
         ],
 
+
         'paths' => [
             /*
              * Absolute path to location where parsed annotations will be stored
@@ -87,6 +88,11 @@ return [
              * Absolute path to directory where to export views
              */
             'views' => base_path('resources/views/vendor/l5-swagger'),
+
+            'docs_json' => 'api-docs.json',
+            'docs_yaml' => 'api-docs.yaml',
+            'format_to_use_for_docs' => 'json',
+
 
             /*
              * Edit to set the api's base path
