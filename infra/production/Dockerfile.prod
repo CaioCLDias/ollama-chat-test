@@ -56,4 +56,4 @@ RUN mkdir -p /var/run/php-fpm-sockets && \
     chown www-data:www-data /var/run/php-fpm-sockets && \
     chmod 775 /var/run/php-fpm-sockets
 
-CMD ["php-fpm"]
+CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-F"]
