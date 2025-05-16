@@ -4,6 +4,11 @@ echo "🔧 Setting permissions for storage and cache directories..."
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
 
+echo "🔧 Creating PHP-FPM socket directory..."
+mkdir -p /var/run/php-fpm-sockets
+chown www-data:www-data /var/run/php-fpm-sockets
+chmod 775 /var/run/php-fpm-socket
+
 echo "📦 Installing PHP dependencies with Composer..."
 composer install --no-dev --optimize-autoloader
 
