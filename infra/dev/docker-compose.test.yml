@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: ../../
+      dockerfile: infra/production/Dockerfile.prod
+    container_name: laravel_prod
+    restart: always
+    volumes:
+      - ../../:/var/www/html
+      - ../../infra/production/start.sh:/usr/local/bin/start.sh
+    working_dir: /var/www/html
+    command: ["sh", "/usr/local/bin/start.sh"]
+    environment:
+      APP_ENV: production
+      DB_HOST: mysql
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    networks:
+      - app
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_prod
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ../../:/var/www/html
+      - ../../infra/production/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - laravel
+    networks:
+      - app
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    restart: always
+    container_name: mysql_prod
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}", "--silent"]
+      interval: 5s
+      retries: 10
+      timeout: 5s
+    networks:
+      - app
+
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_prod
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - app
+
+volumes:
+  mysql-data:
+  ollama-data:
+
+networks:
+  app:
+    driver: bridge

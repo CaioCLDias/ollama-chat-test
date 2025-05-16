@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: ../../
+      dockerfile: infra/production/Dockerfile.prod
+    container_name: ollama_chat_prod
+    restart: always
+    volumes:
+      - ../../:/var/www/html
+      - ../../infra/production/start.sh:/usr/local/bin/start.sh
+    working_dir: /var/www/html
+    command: ["sh", "/usr/local/bin/start.sh"]
+    environment:
+      APP_ENV: production
+      DB_HOST: host.docker.internal
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      ollama:
+        condition: service_started
+    networks:
+      - app
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_prod
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - app
+
+volumes:
+  ollama-data:
+
+networks:
+  app:
+    driver: bridge
