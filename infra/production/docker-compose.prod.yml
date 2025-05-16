@@ -14,7 +14,7 @@ services:
     command: ["sh", "/usr/local/bin/start.sh"]
     environment:
       APP_ENV: production
-      DB_HOST: host.docker.internal
+      DB_HOST: ${DB_HOST}
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
