@@ -1,6 +1,6 @@
 FROM php:8.4-fpm-alpine
 
-# Instala dependências essenciais
+# Dependências essenciais
 RUN apk add --no-cache \
     bash \
     git \
@@ -39,7 +39,13 @@ WORKDIR /var/www/html
 
 COPY . .
 
-# Instala o Composer e dependências do Laravel
+# Configura PHP-FPM para usar socket exclusivo
+RUN sed -i 's|^listen = .*|listen = /var/run/php-fpm-sockets/ollama-chat.sock|' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i 's|^;listen.owner =.*|listen.owner = www-data|' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i 's|^;listen.group =.*|listen.group = www-data|' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i 's|^;listen.mode =.*|listen.mode = 0660|' /usr/local/etc/php-fpm.d/www.conf
+
+# Instala Composer e dependências do Laravel
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
  && composer install --no-dev --optimize-autoloader \
  && php artisan config:cache \

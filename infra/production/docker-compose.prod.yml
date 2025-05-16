@@ -10,6 +10,7 @@ services:
     volumes:
       - ../../:/var/www/html
       - ../../infra/production/start.sh:/usr/local/bin/start.sh
+      - /var/run/php-fpm-sockets:/var/run/php-fpm-sockets  
     working_dir: /var/www/html
     command: ["sh", "/usr/local/bin/start.sh"]
     environment:
@@ -18,8 +19,6 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "8081:9000"
     depends_on:
       ollama:
         condition: service_started
