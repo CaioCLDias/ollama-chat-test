@@ -10,6 +10,43 @@ use Illuminate\Http\Request;
 
 class RecoverUserController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/auth/recover-account",
+     *     tags={"Auth"},
+     *     summary="Recover a soft-deleted user account",
+     *     description="Restores a previously deleted user account by email.",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", format="email", example="deleted.user@example.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Account recovered successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Account recovered successfully."),
+     *             @OA\Property(property="data", type="string", nullable=true, example=null)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Account is already active"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
+     */
+
     public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
