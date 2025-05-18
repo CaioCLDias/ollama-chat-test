@@ -110,7 +110,6 @@ cd ollama-chat-test
 
 ```bash
 cp .env.example .env
-composer install
 ```
 
 3. **Run the Container**
