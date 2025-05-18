@@ -15,7 +15,7 @@ class ChatService
 
     public function __construct()
     {
-        $this->ollamaEndpoint = env('OLLAMA_URL') . '/api/generate';
+       $this->ollamaEndpoint = config('services.ollama.url') . '/api/generate';
     }
 
     public function sendMessage(int $userId, string $message): array
