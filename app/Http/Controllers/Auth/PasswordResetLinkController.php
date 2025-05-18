@@ -63,13 +63,14 @@ class PasswordResetLinkController extends Controller
             ]);
         }
 
-        $data = null;
+        $token = Password::createToken($user);
+        $data = ['reset_token' => $token];
 
-        if (app()->environment('local', 'testing')) {
+       /*  if (app()->environment('local', 'testing')) {
             $token = Password::createToken($user);
             $data = ['reset_token' => $token];
         }
-
+        */
         return ApiResponse::success($data, __($status));
     }
 }
