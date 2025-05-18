@@ -403,47 +403,6 @@
                 }
             }
         },
-        "/api/auth/verify-email/{id}/{hash}": {
-            "get": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Verify user's email address",
-                "description": "Endpoint to mark the user's email as verified using a signed URL.",
-                "operationId": "de3812b62315f16540c9da373e7c2cc3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "User ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    },
-                    {
-                        "name": "hash",
-                        "in": "path",
-                        "description": "SHA1 hash of the user's email",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "f4a6e6c4a4a90a739c51bc6a4f55f90e9f8f83d1"
-                        }
-                    }
-                ],
-                "responses": {
-                    "302": {
-                        "description": "Redirect to email verified success page"
-                    },
-                    "403": {
-                        "description": "Invalid hash or verification error"
-                    }
-                },
-                "security": []
-            }
-        },
         "/api/chat": {
             "post": {
                 "tags": [
