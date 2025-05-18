@@ -37,16 +37,10 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): JsonResponse
     {
-        try {
-            $data = $request->validated();
-            $data['password'] = Hash::make($data['password']);
+        $data = $request->validated();
+        $user = User::create($data);
 
-            $user = User::create($data);
-
-            return ApiResponse::success(new UserResource($user), 'User created successfully.', 201);
-        } catch (\Throwable $e) {
-            return ApiResponse::error('Failed to create user.', 500, $e->getMessage());
-        }
+        return ApiResponse::success(new UserResource($user), 'User created successfully');
     }
 
     /**

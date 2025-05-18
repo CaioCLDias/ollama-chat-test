@@ -266,6 +266,11 @@ return [
             'custom_headers' => [
                 'X-CSRF-TOKEN' => '',
             ],
+
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ],
         ],
         /*
          * Constants which can be used in annotations
