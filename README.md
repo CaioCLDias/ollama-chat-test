@@ -109,6 +109,14 @@ This will:
 - Expose the app on port **8080**
 - Load the Ollama model in the background
 
+🦙 Running Ollama Model
+
+> ❗️After the containers are up and running, you need to manually load the model inside the Ollama container using the following command:
+
+```bash
+docker exec -d ollama_test ollama run llama3.2:1b
+```
+
 ---
 
 ## 🔍 Ollama Chat Example (LLM API)
