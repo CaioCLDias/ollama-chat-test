@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
 
-      
+
         $middleware->use([
             \Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks::class,
             \Illuminate\Http\Middleware\TrustHosts::class,
@@ -27,13 +27,13 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         ]);
 
-       
+
         $middleware->group('api', [
             \App\Http\Middleware\StripCsrfTokenHeader::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
 
-     
+
         $middleware->group('web', [
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
@@ -42,7 +42,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
 
-  
+
         $middleware->alias([
             'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
             'admin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
@@ -51,9 +51,15 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {
-       $schedule->command('users:process-user-deletions')->hourly()->timezone('UTC')->appendOutputTo(storage_path('logs/deletions.log'));
-       $schedule->command('chat:update-main-message')->daily()->timezone('UTC')->appendOutputTo(storage_path('logs/chat.log'));
+        $schedule->command('users:process-user-deletions')->hourly()->timezone('UTC')->appendOutputTo(storage_path('logs/deletions.log'));
+        $schedule->command('chat:update-main-message')->daily()->timezone('UTC')->appendOutputTo(storage_path('logs/chat.log'));
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+
+    ->trustProxies(
+        proxies: '*', // ou array com os IPs confiáveis
+        headers: Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
+    )
+    ->create();
