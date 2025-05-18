@@ -57,9 +57,4 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })
-
-    ->trustProxies(
-        proxies: '*', // ou array com os IPs confiáveis
-        headers: Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
-    )
     ->create();
