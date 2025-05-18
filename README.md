@@ -126,8 +126,6 @@ This will:
 - Build the Laravel app container
 - Seed the database
 - Start scheduled jobs (email cleanup, message updates)
-- Expose the app on port **8080**
-- Load the Ollama model in the background
 
 3. **🦙 Running Ollama Model**
 
