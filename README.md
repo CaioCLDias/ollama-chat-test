@@ -95,7 +95,15 @@ nohup ./vendor/bin/sail artisan schedule:work > storage/logs/schedule.log 2>&1 &
 ```
 
 
-You can also run the application in a production-like containerized environment:
+### 💻 You can also run the application in a production-like containerized environment:
+
+1. **Clone the repository:**
+
+```bash
+git clone git@github.com:CaioCLDias/ollama-chat-test.git
+```
+
+2. **Run the Container**
 
 ```bash
 docker compose -f infra/dev/docker-compose.test.yml --env-file .env up --build -d
@@ -109,7 +117,7 @@ This will:
 - Expose the app on port **8080**
 - Load the Ollama model in the background
 
-🦙 Running Ollama Model
+3. **🦙 Running Ollama Model**
 
 > ❗️After the containers are up and running, you need to manually load the model inside the Ollama container using the following command:
 
