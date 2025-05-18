@@ -102,8 +102,18 @@ nohup ./vendor/bin/sail artisan schedule:work > storage/logs/schedule.log 2>&1 &
 ```bash
 git clone git@github.com:CaioCLDias/ollama-chat-test.git
 ```
+```bash
+cd ollama-chat-test
+```
 
-2. **Run the Container**
+2. **Copy the environment file**
+
+```bash
+cp .env.example .env
+composer install
+```
+
+3. **Run the Container**
 
 ```bash
 docker compose -f infra/dev/docker-compose.test.yml --env-file .env up --build -d
