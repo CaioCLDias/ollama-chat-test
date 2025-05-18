@@ -9,7 +9,7 @@ services:
     restart: always
     volumes:
       - ../../:/var/www/html
-      - ../../infra/production/start.sh:/usr/local/bin/start.sh
+      - ../../infra/dev/start.sh:/usr/local/bin/start.sh
     working_dir: /var/www/html
     command: ["sh", "/usr/local/bin/start.sh"]
     environment:
