@@ -61,15 +61,6 @@ class EmailVerificationNotificationController extends Controller
 
         $request->user()->sendEmailVerificationNotification();
 
-        \Log::info('Verificação de email', [
-            'full_url' => $request->fullUrl(),
-            'url' => $request->url(),
-            'query' => $request->query(),
-            'expected_hash' => sha1(User::findOrFail($request->route('id'))->email),
-            'route_hash' => $request->route('hash'),
-        ]);
-
-
         return ApiResponse::success(['verification_url' => $verificationUrl,], 'Verification link sent');
     }
 }
