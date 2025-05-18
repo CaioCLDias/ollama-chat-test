@@ -4,6 +4,11 @@
         "title": "Ollama Chat API",
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "https://olla-app-test.ccldias.com"
+        }
+    ],
     "paths": {
         "/api/auth/login": {
             "post": {

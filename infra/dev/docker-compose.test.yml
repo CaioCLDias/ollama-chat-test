@@ -5,7 +5,7 @@ services:
     build:
       context: ../../
       dockerfile: infra/production/Dockerfile.prod
-    container_name: laravel_prod
+    container_name: laravel_test
     restart: always
     volumes:
       - ../../:/var/www/html
@@ -13,7 +13,7 @@ services:
     working_dir: /var/www/html
     command: ["sh", "/usr/local/bin/start.sh"]
     environment:
-      APP_ENV: production
+      APP_ENV: local
       DB_HOST: mysql
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
@@ -28,13 +28,13 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: nginx_prod
+    container_name: nginx_teste
     restart: always
     ports:
       - "8080:80"
     volumes:
       - ../../:/var/www/html
-      - ../../infra/production/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../../infra/dev/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - laravel
     networks:
@@ -43,7 +43,7 @@ services:
   mysql:
     image: mysql/mysql-server:8.0
     restart: always
-    container_name: mysql_prod
+    container_name: mysql_test
     ports:
       - "3306:3306"
     environment:
@@ -64,7 +64,7 @@ services:
 
   ollama:
     image: ollama/ollama:latest
-    container_name: ollama_prod
+    container_name: ollama_test
     restart: always
     ports:
       - "11434:11434"
