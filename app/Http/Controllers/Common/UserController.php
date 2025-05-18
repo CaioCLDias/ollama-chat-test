@@ -112,7 +112,7 @@ class UserController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Delete(
      *     path="/api/user/delete",
      *     tags={"User"},
      *     summary="Schedule account deletion for authenticated user",

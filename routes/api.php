@@ -24,7 +24,7 @@ Route::prefix('user')->group(function () {
         ->middleware(['auth:sanctum', 'verified', 'deleted'])
         ->name('user.update');
 
-    Route::post('/delete', [UserController::class, 'destroy'])
+    Route::delete('/delete', [UserController::class, 'destroy'])
         ->middleware(['auth:sanctum', 'verified', 'deleted'])
         ->name('user.delete');
 
