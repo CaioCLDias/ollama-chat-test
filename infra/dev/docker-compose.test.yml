@@ -68,6 +68,8 @@ services:
     restart: always
     ports:
       - "11434:11434"
+    command: >
+      sh -c "ollama run llama3.2:1b"
     volumes:
       - ollama-data:/root/.ollama
     networks:
