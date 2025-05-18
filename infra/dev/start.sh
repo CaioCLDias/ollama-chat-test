@@ -9,7 +9,7 @@ echo "📦 Installing PHP dependencies with Composer..."
 composer install --no-dev --optimize-autoloader
 
 echo "🧼 Clearing and caching Laravel configuration..."
-cp .env.prod .env
+cp .env.example .env
 php artisan key:generate
 php artisan config:clear
 php artisan config:cache
