@@ -106,10 +106,13 @@ git clone git@github.com:CaioCLDias/ollama-chat-test.git
 cd ollama-chat-test
 ```
 
-2. **Copy the environment file**
+2. **Copy the environment file and install dependencies:**
 
 ```bash
 cp .env.example .env
+```
+```bash
+composer install
 ```
 
 3. **Run the Container**
