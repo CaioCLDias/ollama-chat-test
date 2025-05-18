@@ -158,7 +158,7 @@ These are automatically started by the container via `start.sh`.
 
 Swagger docs are automatically generated:
 
-- Local: [http://localhost:8081/api/documentation](http://localhost:8081/api/documentation)
+- Local: [http://localhost:8080/api/documentation](http://localhost:8080/api/documentation)
 - Public: [https://olla-app-test.ccldias.com/api/documentation](https://olla-app-test.ccldias.com/api/documentation)
 
 ---
