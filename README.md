@@ -47,7 +47,7 @@ This project is a **Laravel 12** application integrated with **Ollama**, a local
 1. **Clone the repository:**
 
 ```bash
-git git@github.com:CaioCLDias/ollama-chat-test.git
+git clone git@github.com:CaioCLDias/ollama-chat-test.git
 cd ollama-chat-test
 ```
 
@@ -91,7 +91,7 @@ nohup ./vendor/bin/sail artisan schedule:work > storage/logs/schedule.log 2>&1 &
 8. **Run all automated tests (unit + feature + integration):**
 
 ```bash
-./vendor/bin/sail test
+./vendor/bin/sail artisan test
 ```
 
 
