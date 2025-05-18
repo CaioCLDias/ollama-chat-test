@@ -94,6 +94,11 @@ nohup ./vendor/bin/sail artisan schedule:work > storage/logs/schedule.log 2>&1 &
 ./vendor/bin/sail artisan test
 ```
 
+9. **Generate Swagger Documentation:**
+
+```bash
+./vendor/bin/sail artisan l5-swagger:generate
+```
 
 ### 💻 You can also run the application in a production-like containerized environment:
 

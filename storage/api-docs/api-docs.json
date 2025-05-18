@@ -602,12 +602,12 @@
             }
         },
         "/api/user/delete": {
-            "post": {
+            "delete": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Schedule account deletion for authenticated user",
-                "operationId": "7cbf7589136e4c9406b2cbdba48d4783",
+                "operationId": "323ce89cf0fae85d0ce8497bb9deb06e",
                 "responses": {
                     "200": {
                         "description": "Account deletion scheduled"
