@@ -104,7 +104,7 @@ class UserFeatureTest extends TestCase
     {
 
         $response = $this->withToken($this->token)
-            ->postJson("/api/user/delete");
+            ->deleteJson("/api/user/delete");
 
         $response->assertOk()
             ->assertJson([

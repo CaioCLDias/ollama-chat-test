@@ -14,7 +14,7 @@ class FullUserJourneyTest extends TestCase
     use RefreshDatabase;
 
     
-    public function user_can_register_verify_login_chat_and_delete_account()
+    public function test_user_can_register_verify_login_chat_and_delete_account()
     {
         Notification::fake();
 
@@ -64,11 +64,12 @@ class FullUserJourneyTest extends TestCase
         ]);
 
         // 5. Schedule deletion
-        $this->withToken($token)->postJson('/api/user/delete')->assertOk();
+        $this->withToken($token)->deleteJson('/api/user/delete')->assertOk();
         $this->assertNotNull($user->fresh()->scheduled_for_deletion_at);
 
         // 6. Run deletion command
-        $user->update(['scheduled_for_deletion_at' => now()->subMinute()]);
+        $user->scheduled_for_deletion_at = now()->subMinute();
+        $user->save();
         Artisan::call('users:process-user-deletions');
 
         // 7. Assert user soft deleted
