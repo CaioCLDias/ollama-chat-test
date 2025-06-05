@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChatHistory;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,60 @@ class ChatController extends Controller
             return ApiResponse::success($chat, 'Chat message sent successfully');
         } catch (\Exception $e) {
             return ApiResponse::error('Failed to send chat message', 500, $e->getMessage());
+        }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/chat/history",
+     *     tags={"Chat"},
+     *     summary="Get chat history of the authenticated user",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Chat history fetched successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Chat History fetched successfully."),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="user_id", type="integer", example=1),
+     *                     @OA\Property(property="message", type="string", example="Hello, how are you?"),
+     *                     @OA\Property(property="response", type="string", example="I'm fine, thank you!"),
+     *                     @OA\Property(property="created_at", type="string", format="date-time", example="2025-06-05T00:00:00Z"),
+     *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2025-06-05T00:00:00Z")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Failed to fetch chat history",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Failed to fetch chat history."),
+     *             @OA\Property(property="data", type="object", example=null)
+     *         )
+     *     )
+     * )
+     */
+    public function getChatHistory(Request $request)
+    {
+        try {
+             $userId = request()->user()->id;
+
+            $messages = ChatHistory::where("user_id", $userId)
+                ->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc')
+                ->get();
+
+            return ApiResponse::success($messages, 'Chat History fetched successfully,');
+        } catch (\Throwable $e) {
+            return ApiResponse::error('Failed to fetch chat history,', 500, $e->getMessage());
         }
     }
 }

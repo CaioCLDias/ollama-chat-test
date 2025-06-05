@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ChatHistory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -54,5 +55,48 @@ class ChatFeatureTest extends TestCase
         ]);
 
         $response->assertUnauthorized();
+    }
+
+    public function test_user_can_get_chat_history()
+    {
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
+        $token = $user->createToken('TestToken')->plainTextToken;
+
+        $chat1 = new ChatHistory([
+            'user_id' => $user->id,
+            'message' => 'Hello!',
+            'response' => 'Hi there!',
+            'created_at' => now()->subMinute(),
+        ]);
+        $chat1->timestamps = false;
+        $chat1->save();
+
+        $chat2 = new ChatHistory([
+            'user_id' => $user->id,
+            'message' => 'How are you?',
+            'response' => 'I am good!',
+            'created_at' => now(),
+        ]);
+        $chat2->timestamps = false;
+        $chat2->save();
+
+        $response = $this->withToken($token)
+            ->getJson('/api/chat/history');
+
+        $response->assertOk()
+            ->assertJson([
+                'status' => true,
+                'message' => 'Chat History fetched successfully,',
+            ]);
+
+        $responseData = $response->json('data');
+
+        $this->assertEquals('How are you?', $responseData[0]['message']);
+        $this->assertEquals('I am good!', $responseData[0]['response']);
+
+        $this->assertEquals('Hello!', $responseData[1]['message']);
+        $this->assertEquals('Hi there!', $responseData[1]['response']);
     }
 }

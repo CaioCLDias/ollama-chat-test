@@ -23,4 +23,13 @@ class ApiResponse
             'data' => $data,
         ], $code);
     }
+
+    public static function created($data = null, $message = 'Created successfully', $status = 201)
+    {
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            'data' => $data,
+        ], $status);
+    }
 }

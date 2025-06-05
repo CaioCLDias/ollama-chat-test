@@ -40,7 +40,7 @@ class UserController extends Controller
         $data = $request->validated();
         $user = User::create($data);
 
-        return ApiResponse::success(new UserResource($user), 'User created successfully');
+        return ApiResponse::success(new UserResource($user), 'User created successfully', 201);
     }
 
     /**

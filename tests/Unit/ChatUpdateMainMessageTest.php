@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ChatUpdateMainMessageTest extends TestCase
 {
    
-    public function it_logs_successfully_when_command_runs()
+    public function test_it_logs_successfully_when_command_runs()
     {
         Log::shouldReceive('info')
             ->once()
