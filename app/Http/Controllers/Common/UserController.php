@@ -117,11 +117,21 @@ class UserController extends Controller
      */
     public function destroy(Request $request): JsonResponse
     {
-        $user = $request->user(); // Laravel já garante que há usuário aqui
-        $user->scheduled_for_deletion_at = now()->addDays(7);
-        $user->save();
+        try {
 
-        return ApiResponse::success(null, 'Account deletion scheduled');
+            $user = $request->user();
+
+            if (!$user) {
+                return ApiResponse::error('User not found', 404);
+            }
+
+            $user->scheduled_for_deletion_at = now()->addDays(7);
+            $user->save();
+
+            return ApiResponse::success(null, 'Account deletion scheduled');
+        } catch (\Throwable $e) {
+            return ApiResponse::error('Failed to delete user.', 500, $e->getMessage());
+        }
     }
 
     /**
