@@ -64,6 +64,5 @@ class ChatService
             ]);
 
         return $response->getBody();
-
     }
 }
