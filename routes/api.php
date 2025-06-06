@@ -36,6 +36,9 @@ Route::prefix('user')->group(function () {
 Route::middleware(['auth:sanctum', 'verified', 'deleted'])->group(function () {
     Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
     Route::get('/chat/history', [ChatController::class, 'getChatHistory'])->name('chat.getChatHistory');
+  
 });
+
+  Route::post('/chat/async', [ChatController::class, 'sendAsyncMessage']);
 
 require __DIR__ . '/auth.php';
