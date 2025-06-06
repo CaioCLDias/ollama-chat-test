@@ -15,7 +15,7 @@ class ChatService
 
     public function __construct()
     {
-       $this->ollamaEndpoint = config('services.ollama.url') . '/api/generate';
+        $this->ollamaEndpoint = config('services.ollama.url') . '/api/generate';
     }
 
     public function sendMessage(int $userId, string $message): array
@@ -24,6 +24,7 @@ class ChatService
             ->post($this->ollamaEndpoint, [
                 'model' => 'llama3.2:1b',
                 'prompt' => $message,
+                'stream' => true
             ]);
 
         $content = OllamaStreamParser::extractTextFromStream($response->getBody());
@@ -50,5 +51,19 @@ class ChatService
             'message' => $message,
             'response' => $response,
         ]);
+    }
+
+    public function sendAssyncMessage(string $message)
+    {
+
+        $response = Http::withOptions(['stream' => true])
+            ->post($this->ollamaEndpoint, [
+                'model' => 'llama3.2:1b',
+                'prompt' => $message,
+                'stream' => true
+            ]);
+
+        return $response->getBody();
+
     }
 }

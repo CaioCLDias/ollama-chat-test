@@ -115,4 +115,25 @@ class ChatController extends Controller
             return ApiResponse::error('Failed to fetch chat history,', 500, $e->getMessage());
         }
     }
+
+    public function sendAsyncMessage(Request $request)
+    {
+
+       
+        $message = $request->get('message');
+
+        $stream = $this->chatService->sendAssyncMessage($message);
+
+        return response()->stream(function () use ($stream) {
+            while (!$stream->eof()){
+                ob_flush();
+                flush();
+            }
+        }, 200,[
+        'Content-Type' => 'text/plain',
+        'Cache-Control' => 'no-cache',
+        'X-Accel-Buffering' => 'no',]
+        );
+
+    }
 }
